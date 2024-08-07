@@ -1,0 +1,1 @@
+This is a python based project to create a CLI tool that will remeber all the link user enter, and would go to the websites in a single line of command to reduce repeated daily login
