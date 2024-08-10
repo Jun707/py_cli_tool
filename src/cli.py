@@ -9,9 +9,11 @@ def parser_arguments():
     )
 
     subparser = parser.add_subparsers(title = "subcommand")
+    # storing url paths
     save_parser = subparser.add_parser("save", help = "save an url path")
     save_parser.add_argument(type=str, dest="operands")
     save_parser.set_defaults(func=save_input_url)
+
     args = parser.parse_args()
     return args
 
