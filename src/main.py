@@ -1,9 +1,13 @@
-import webbrowser
-from src.storage import read_files_url
+from src import cli
+
 def main():
-    urls = read_files_url()
-    for i in range(len(urls)):
-        webbrowser.open(urls[i])
+    args = cli.parser_arguments()
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        print("No valid subcommand provided. Use --help for usage details.")
+
+
     print("hello world")
 
 if __name__ == "__main__":
