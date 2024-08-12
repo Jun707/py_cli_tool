@@ -5,9 +5,12 @@ This is a python based project to create a CLI tool that will remeber all the li
 [x] write a sub command where user can call to open all the stored urls\
 [x] write a sub command where user can remove path from the cli tool\
 [x] write unit test for all the sub commands\n
-[] write a function to check duplicated urls path in the local txt file\
+[x] write a function to check duplicated urls path in the local txt file\
 [] write a sub command will list all the stored url paths\
+[] write a function to validate url paths ?\
+[] write a sub command can create group to group diffrent url paths to a category
 [] write error handling for all sub commands\
 [] write a -h command to explain this cli tool\
 
 *note export BROWSER=/mnt/c/Program\ Files/Google/Chrome/Application/chrome.exe
+*? optional features/ might not be possible to implement 
