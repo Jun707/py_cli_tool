@@ -34,10 +34,25 @@ class Test(unittest.TestCase):
         script_dir = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(script_dir, "url_storage.txt")
 
-        mock_file.assert_called_once_with(file_path, 'a')
+        mock_file.assert_any_call(file_path, 'r')
+        mock_file.assert_any_call(file_path, 'a')
 
         mock_file().write.assert_called_once_with('www.yahoo.com\n')
         mocked_print.assert_called_once_with('www.yahoo.com is saved')
+
+    @patch('cli.open', new_callable = mock_open, read_data = "www.yahoo.com\nwww.google.com\n")
+    def test_save_input_url_with_duplicated_url(self, mock_file):
+        args = type('Args', (object,), {'operands': 'www.yahoo.com'})()
+
+        with patch('builtins.print') as mocked_print:
+            save_input_url(args)
+
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(script_dir, "url_storage.txt")
+
+        mock_file.assert_called_once_with(file_path, 'r')
+
+        mocked_print.assert_called_once_with('www.yahoo.com has exits')
     
     @patch('cli.open', new_callable = mock_open,
             read_data = "www.google.com\nwww.github.com\nwww.yahoo.com\n")

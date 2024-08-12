@@ -47,10 +47,15 @@ def save_input_url(args):
     url_path = args.operands
     script_dir = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(script_dir, "url_storage.txt")
-    with open(file_path,"a") as file:
-        file.write(url_path + "\n")
-    
-    print(f"{url_path} is saved")
+
+    with open(file_path, 'r') as file:
+        data = [line.strip() for line in file.readlines()]
+    if url_path not in data:
+        with open(file_path,"a") as file:
+            file.write(url_path + "\n")
+            print(f"{url_path} is saved")
+    else:
+        print(f"{url_path} has exits")
 
 def remove_url_input(args):
     url_path = args.operands
