@@ -1,6 +1,7 @@
 import argparse
 import os
 import webbrowser
+from urllib.parse import urlparse
 
 def parser_arguments():
     parser = argparse.ArgumentParser(
@@ -58,6 +59,14 @@ def save_input_url(args):
             print(f"{url_path} is saved")
     else:
         print(f"{url_path} has exits")
+
+def valid_url_paths(url):
+    parse_url = urlparse(url)
+
+    if parse_url.netloc:
+        return True, url
+
+    return False
 
 def remove_url_input(args):
     url_path = args.operands

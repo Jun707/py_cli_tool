@@ -8,7 +8,7 @@ This is a python based project to create a CLI tool that will remeber all the li
 [x] write a function to check duplicated urls path in the local txt file\
 [x] add an arg to Read subparser so user can see all stored url paths\
 [] write a function to validate url paths ?\
-[] write a sub command can create group to group diffrent url paths to a category
+[] write a sub command can create group to group diffrent url paths to a category\
 [] write error handling for all sub commands\
 [] write a -h command to explain this cli tool\
 
