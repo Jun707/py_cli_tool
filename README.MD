@@ -10,7 +10,7 @@ This is a python based project to create a CLI tool that will remeber all the li
 [] write a function to validate url paths ?\
 [] write a sub command can create group to group diffrent url paths to a category\
 [] write error handling for all sub commands\
-[] write a -h command to explain this cli tool\
+[] write a -h command to explain this cli tool
 
 *note export BROWSER=/mnt/c/Program\ Files/Google/Chrome/Application/chrome.exe
 *? optional features/ might not be possible to implement 

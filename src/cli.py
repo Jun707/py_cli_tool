@@ -51,6 +51,11 @@ def save_input_url(args):
     script_dir = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(script_dir, "url_storage.txt")
 
+    if not valid_url_paths(url_path):
+        raise argparse.ArgumentTypeError(
+            'invalid url'
+        )
+
     with open(file_path, 'r') as file:
         data = [line.strip() for line in file.readlines()]
     if url_path not in data:
@@ -64,7 +69,7 @@ def valid_url_paths(url):
     parse_url = urlparse(url)
 
     if parse_url.netloc:
-        return True, url
+        return True
 
     return False
 
