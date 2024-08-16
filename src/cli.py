@@ -1,5 +1,6 @@
 import argparse
 import os
+import re
 import webbrowser
 from urllib.parse import urlparse
 
@@ -40,11 +41,23 @@ def read_files_url(args, list = False):
             urls.append(line.strip())
     if args.list:
         for url in urls:
-            print(url, end = " ")
+            print(url)
     else:
         for url in urls:
             webbrowser.open(url)
     
+
+def valid_url_paths(url):
+
+    parsed_url = urlparse(url)
+    
+    domain = parsed_url.netloc
+
+    domain_regex = r'^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$'
+
+    if re.match(domain_regex, domain):
+        return True
+    return False
 
 def save_input_url(args):
     url_path = args.operands
@@ -52,9 +65,7 @@ def save_input_url(args):
     file_path = os.path.join(script_dir, "url_storage.txt")
 
     if not valid_url_paths(url_path):
-        raise argparse.ArgumentTypeError(
-            'invalid url'
-        )
+        raise argparse.ArgumentTypeError(f"Invaild URL path: {url_path}")
 
     with open(file_path, 'r') as file:
         data = [line.strip() for line in file.readlines()]
@@ -64,14 +75,6 @@ def save_input_url(args):
             print(f"{url_path} is saved")
     else:
         print(f"{url_path} has exits")
-
-def valid_url_paths(url):
-    parse_url = urlparse(url)
-
-    if parse_url.netloc:
-        return True
-
-    return False
 
 def remove_url_input(args):
     url_path = args.operands
@@ -85,4 +88,3 @@ def remove_url_input(args):
             if line.strip("\n") != url_path:
                 file.writelines(line)
     print(f"{url_path} is removed")
-
