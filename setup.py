@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='miso',
     version='0.0.2',
-    description= "a cli tool to help optimized workflow by saving frequently used url paths, can also group different urls",
+    description= "a cli tool to help optimized workflow by saving frequently used url paths",
     author= "Junwen Huang",
     author_email= "juntowork@gmail.com",
     packages=find_packages(),

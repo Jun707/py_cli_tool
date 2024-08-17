@@ -7,8 +7,8 @@ from urllib.parse import urlparse
 def parser_arguments():
     parser = argparse.ArgumentParser(
         prog = "miso",
-        description = "TBD",
-        epilog = "TBD"
+        description = "Miso is a command-line tool designed to help you manage and automate your daily tasks with ease. Whether it's managing URLs, executing repetitive commands, or streamlining workflows, Miso provides a simple and intuitive interface for enhancing productivity.",
+        epilog = "%(prog)s is still in beta. Thanks for using %(prog)s! :)"
     )
 
     subparser = parser.add_subparsers(title = "subcommand")
@@ -36,18 +36,26 @@ def read_files_url(args, list = False):
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(script_dir, "url_storage.txt")
-    with open(file_path, "r") as file:
-        for line in file:
-            urls.append(line.strip())
-    if args.list:
-        for url in urls:
-            print(url)
+    try:
+        with open(file_path, "r") as file:
+            for line in file:
+                urls.append(line.strip())
+    except FileNotFoundError:
+        urls = []
+
+    if urls:
+        if args.list:
+            for url in urls:
+                print(url)
+        else:
+            for url in urls:
+                webbrowser.open(url)
     else:
-        for url in urls:
-            webbrowser.open(url)
-    
+        print("No url paths exist")
 
 def valid_url_paths(url):
+    if not urlparse(url).scheme:
+        url = 'https://' + url
 
     parsed_url = urlparse(url)
     
@@ -65,10 +73,15 @@ def save_input_url(args):
     file_path = os.path.join(script_dir, "url_storage.txt")
 
     if not valid_url_paths(url_path):
-        raise argparse.ArgumentTypeError(f"Invaild URL path: {url_path}")
+        print(f"Invaild URL path: {url_path}")
+        return
+    
+    try:
+        with open(file_path, 'r') as file:
+            data = [line.strip() for line in file.readlines()]
+    except FileNotFoundError:
+        data = []
 
-    with open(file_path, 'r') as file:
-        data = [line.strip() for line in file.readlines()]
     if url_path not in data:
         with open(file_path,"a") as file:
             file.write(url_path + "\n")
@@ -78,13 +91,25 @@ def save_input_url(args):
 
 def remove_url_input(args):
     url_path = args.operands
+    file_exist = False
     script_dir = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(script_dir, "url_storage.txt")
-    with open(file_path, "r") as file:
-        data = file.readlines()
-    
-    with open(file_path, "w") as file:
-        for line in data:
-            if line.strip("\n") != url_path:
-                file.writelines(line)
-    print(f"{url_path} is removed")
+    try:
+        with open(file_path, "r") as file:
+            data = file.readlines()
+    except FileNotFoundError:
+        data = []
+    if data:
+        with open(file_path, "w") as file:
+            for line in data:
+                if line.strip("\n") == url_path:
+                    file_exist = True
+                else:
+                    file.writelines(line)
+        if file_exist:
+            print(f"{url_path} is removed")
+            return
+        else:
+            print(f"{url_path} not found")
+            return
+    print("Empty url paths list")
